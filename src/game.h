@@ -2,19 +2,20 @@
 #define SNAKE_GAME_H
 
 /**
- * An interface for an interactive game.
+ * An interface for an interactive game. Oh hey, this is an interface for an interface.
  */
 class game_i {
 public:
+    /** virtual interactive handles **/
     virtual void tick(double delta) {}
     virtual void render(double delta) {}
     virtual void handle(int key) {}
     virtual bool conclude() {return false;}
 
-    template<typename T>
-    static const char *show(const T);
-    template<typename T>
-    static void print(int x, int y, T);
+    /** static, non-virtual helper functions **/
+    template<typename T> static const char *show(const T);
+    template<typename T> static void print(int x, int y, T);
+    static void print(int x, int y, char *);
 };
 
 /**

@@ -40,6 +40,8 @@ namespace snake {
 
         int key = 0;
         int key_count = 0;
+
+        double delay_len = 0;
     public:
         snakey_game();
         ~snakey_game();
@@ -53,4 +55,3 @@ namespace snake {
 }
 
 #endif //PONG_SNAKE_H
-
