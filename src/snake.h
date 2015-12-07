@@ -1,6 +1,3 @@
-/**
- * snake.h:
- */
 #include <iostream>
 #include <vector>
 #include <ncurses.h>
@@ -38,13 +35,20 @@ namespace snake {
 /*********************************************************************************************************************/
 
     class snakey_game : public game_i {
+        const int quit_key = 113;
+        bool concluded = false;
 
+        int key = 0;
+        int key_count = 0;
     public:
         snakey_game();
         ~snakey_game();
 
-        virtual void tick(double delta) override;
+        void tick(double delta) override;
+        void render(double delta) override;
+        void handle(int key) override;
         bool conclude() override;
+
     };
 }
 
