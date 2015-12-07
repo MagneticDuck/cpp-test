@@ -1,22 +1,6 @@
 #include "snake.h"
+#include "game.h"
 #include <unistd.h>
-
-
-template<typename T>
-const char *game_i::show(const T t) {
-    return std::to_string(t).c_str();
-}
-
-template<typename T>
-void game_i::print(int x, int y, T t) {
-    move(x, y);
-    printw(show(t));
-}
-
-void game_i::print(int x, int y, char *t) {
-    move(x, y);
-    printw(t);
-}
 
 static const __useconds_t delay = 10000;
 
@@ -54,3 +38,11 @@ void run_game(game_i &game) {
     endwin();
 }
 
+void game_i::print(int x, int y, char *t) {
+    move(x, y);
+    printw(t);
+}
+
+const char *game_i::show(std::string string) {
+    return string.c_str();
+}
