@@ -43,8 +43,8 @@ namespace snake {
         snakey_game();
         ~snakey_game();
 
-        void tick(float delta);
-        bool conclude();
+        virtual void tick(double delta) override;
+        bool conclude() override;
     };
 }
 

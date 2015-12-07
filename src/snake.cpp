@@ -9,7 +9,7 @@ namespace snake {
 
     }
 
-    void snakey_game::tick(float delta) {
+    void snakey_game::tick(double delta) {
 
     }
 

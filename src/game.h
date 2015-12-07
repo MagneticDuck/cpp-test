@@ -17,7 +17,7 @@ public:
 /**
  * Runs a snakey_game.
  */
-void run_game(game_i *game);
+void run_game(game_i &game);
 
 #endif //SNAKE_GAME_H
 
