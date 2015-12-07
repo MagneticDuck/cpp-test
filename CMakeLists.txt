@@ -6,7 +6,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(SOURCE_FILES src/main.cpp)
 set(SOURCE_FILES ${SOURCE_FILES} src/snake.h src/snake.cpp)
 set(SOURCE_FILES ${SOURCE_FILES} src/game.h src/game.cpp)
-add_executable(snake ${SOURCE_FILES})
+add_executable(snake ${SOURCE_FILES} src/TestClass.cpp src/TestClass.h)
 
 # hack for my nixos system, sorry
 include_directories(/home/magneticduck/.nix-profile/include/ncurses/)

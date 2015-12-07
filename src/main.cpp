@@ -2,7 +2,8 @@
 
 //the entry point of the program.
 int main() {
-    game s;
-    s.start();
+    snake::snakey_game game();
+    run_game((game_i *) &game);
+
     return 0;
 }

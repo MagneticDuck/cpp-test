@@ -6,17 +6,18 @@
 #define SNAKE_GAME_H
 
 /**
- * An interface for a interactive game.
+ * An interface for a interactive snakey_game.
  */
 class game_i {
 public:
     virtual void tick(double delta) = 0;
+    virtual bool conclude() = 0;
 };
 
 /**
- * Runs a game.
+ * Runs a snakey_game.
  */
-void run_game(game_i &game);
+void run_game(game_i *game);
 
 #endif //SNAKE_GAME_H
 

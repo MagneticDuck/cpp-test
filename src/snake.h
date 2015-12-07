@@ -1,50 +1,52 @@
+/**
+ * snake.h:
+ */
 #include <iostream>
 #include <vector>
 #include <ncurses.h>
+#include "game.h"
 #include <cstdlib>
 
 #ifndef PONG_SNAKE_H
 #define PONG_SNAKE_H
 
-struct game_loc {
-    int x, y;
+/*********************************************************************************************************************/
+/* basic snakey_game state types
+/*********************************************************************************************************************/
 
-    game_loc(int col, int row) : x(col), y(row) { }
+namespace snake {
+/**
+ * Location on the screen. Could use a vector; this implementation is purely pedagogical.
+ */
+    struct loc {
+        int x, y;
 
-    game_loc() : x(0), y(0) { }
-};
+        loc(int col, int row) : x(col), y(row) { }
 
-enum class game_dir {
-    Up, Down, Left, Right
-};
+        loc() : x(0), y(0) { }
+    };
 
-class game {
-    const __useconds_t delay = 110000;
+/**
+ * A direction something can travel along.
+ */
+    enum class dir {
+        Up, Down, Left, Right
+    };
 
-    /** graphics **/
-    const chtype body_char = 'x';
-    const chtype border_char = (char) 219;
-    const chtype food_char = '*';
+/*********************************************************************************************************************/
+/* snakey_game class
+/*********************************************************************************************************************/
 
-    /** screen dimensions **/
-    int maxwidth;
-    int maxheight;
+    class snakey_game : public game_i {
 
-    /** game state **/
-    int points;
-    bool get; //indicates that the snake get food (it makes the snake longer)
-    game_dir direction; //indicates the current direction of the snake
-    game_loc food;
-    std::vector<game_loc> snake; //represent the snake
+    public:
+        snakey_game();
+        ~snakey_game();
 
-    void put_food ();
-    bool collision();
-    void tick();
-
-public:
-    game();
-    ~game();
-    void start();
-};
+        void tick(float delta);
+        bool conclude();
+    };
+}
 
 #endif //PONG_SNAKE_H
+
