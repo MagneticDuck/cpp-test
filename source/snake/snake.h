@@ -2,6 +2,7 @@
 #include <vector>
 #include <ncurses.h>
 #include <cstdlib>
+#include "snake/engine/options.h"
 #include "snake/control/control.h"
 #include "snake/util/util.h"
 #include "snake/engine/engine.h"
@@ -11,13 +12,18 @@
 
 class snakey_game : public game_i {
     // tickatickatickaticka
-    tickertape title{30, 30};
+    tickertape title{rndr_opts::advice_width, rndr_opts::advice_length};
+    std::string advice;
 
     // tickers
-    ticker anim_ticker{0.4}; // animation things tick every 0.4 seconds
-    ticker game_ticker{0.1}; // the game ticks every 0.1 seconds
+    ticker anim_ticker{0.2}; // animation things tick
+    ticker game_ticker{0.1}; // the game ticks
+    ticker advice_ticker{10}; // the game dispenses valuable advice
 
     // game
+    struct {
+        bool playing = false;
+    } menu_state;
     snake_engine game;
 
     void anim_tick();

@@ -18,8 +18,8 @@
  */
 class frame_i {
 private:
-    static const char *show(std::string t) {
-        return t.c_str();
+    static char *show(std::string t) {
+        return (char *) t.c_str();
     }
 
     template<typename T>
@@ -28,14 +28,18 @@ private:
     }
 
 public:
-    /**
-     * We can print a stringifyable value to a screen location.
-     * print(loc, char *) is pure virtual but the templated function
-     * is defined here, dependant on the former.
-     */
-    virtual void print(loc a_loc, char *) = 0;
+    virtual void print_c(loc a_loc, char *) = 0;
+
     template<typename T>
-    void print(loc a_loc, T t);
+    void print(loc a_loc, T t) {
+        print_c(a_loc, show(t));
+    }
+
+    void print(loc a_loc, char c) {
+        // TODO: make sense of this char* / const char* / string conversion?
+        print_c(a_loc, show((std::string) "" + c));
+    }
+
     virtual void draw_border(loc corner) = 0;
 
     /**
@@ -46,12 +50,6 @@ public:
         int y_max;
     } dims;
 };
-
-template<typename T>
-void frame_i::print(loc a_loc, T t) {
-    move(a_loc.y, a_loc.x);
-    printw(show(t));
-}
 
 /**********************************************************************************************************************/
 /* game_i

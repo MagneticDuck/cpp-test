@@ -9,15 +9,20 @@
 #define SNAKE_ENGINE_H
 
 class snake_engine {
+private:
+    bool move();
+
 public:
-    bool playing = false;
-    int score = 0;
+    bool failure = false;
+    double score = 0;
+
     loc head{};
     dir movement = dir::Up;
     std::vector<loc> tail{};
+    std::vector<loc> food{};
+    int target_tail = 0;
 
-    void start(loc player_head, dir player_movement);
-    void stop();
+    void init(loc player_head, dir player_movement);
     void render(frame_i &frame);
     void handle(dir movement);
     void tick();

@@ -1,3 +1,4 @@
+#include <thread>
 #include "control.h"
 #include "control_ncurses.h"
 
@@ -7,7 +8,7 @@ private:
 public:
     frame_ncurses();
 
-    void print(loc a_loc, char *) override;
+    void print_c(loc a_loc, char *) override;
     void draw_border(loc corner) override;
 
     void tick();
@@ -24,15 +25,15 @@ frame_ncurses::frame_ncurses() {
     update_dims();
 }
 
-void frame_ncurses::print(loc a_loc, char *t) {
+void frame_ncurses::print_c(loc a_loc, char *t) {
     move(a_loc.y, a_loc.x);
     printw(t);
 }
 
 void frame_ncurses::draw_border(loc corner) {
     int i;
-    const int x = corner.x;
-    const int y = corner.y;
+    const int x = corner.x + 1;
+    const int y = corner.y + 1;
     for (i = 1; i < x; ++i) {
         move(0, i), printw("=");
         move(y, i), printw("=");
@@ -52,9 +53,9 @@ void frame_ncurses::tick() {
 static const int delay = 10; // in milliseconds
 
 void run_game_loop(frame_ncurses &frame, game_i &game) {
-    /* TODO:
-     * make reported delta times more precise with something like the comments here
-     * (they are commented out because they give jittery stats O__o)
+    /* TODO: fix game loop!
+     * Make reported delta times more precise with something like the comments here.
+     * (They are commented out because they give jittery values O__o.)
      */
     int key;
 //    double delta;
@@ -63,7 +64,7 @@ void run_game_loop(frame_ncurses &frame, game_i &game) {
 //    now_stamp = clock();
     while (1) {
 //        then_stamp = now_stamp;
-//        std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+        std::this_thread::sleep_for(std::chrono::milliseconds(delay));
 //        now_stamp = clock();
 //        delta = ((double) now_stamp - then_stamp) / 10000;
 

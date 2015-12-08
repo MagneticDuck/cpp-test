@@ -4,12 +4,20 @@
 #ifndef SNAKE_UTIL_H
 #define SNAKE_UTIL_H
 
+#include <string>
+#include <algorithm>
+
+/**********************************************************************************************************************/
+/* menu_action
+/**********************************************************************************************************************/
+
+enum menu_action {
+    Up, Down, Select
+};
+
 /**********************************************************************************************************************/
 /* dir, loc
 /**********************************************************************************************************************/
-
-#include <bits/stringfwd.h>
-#include <boost/optional/optional.hpp>
 
 /**
  * A direction something can travel along.
@@ -17,11 +25,6 @@
 enum class dir {
     Up, Down, Left, Right
 };
-
-/**
- * Turn an arrow-key keycode into a dir.
- */
-boost::optional<dir> key_to_dir(int a_key);
 
 /**
  * A position on the screen.
@@ -34,8 +37,10 @@ struct loc {
     loc();
 
     void operator+=(loc a_loc);
-    void clamp(int max_x, int max_y);
+    bool clamp(int max_x, int max_y); // returns true if clamping occured
 };
+
+bool operator==(loc a_loc, loc b_loc);
 
 /**********************************************************************************************************************/
 /* tickertape
@@ -84,6 +89,7 @@ public:
     ticker(double period) : period(period) { }
 
     bool tick(double delta);
+    void reset();
     operator bool();
 };
 

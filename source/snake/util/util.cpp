@@ -1,5 +1,6 @@
 #include "util.h"
 
+
 /**********************************************************************************************************************/
 /* dir, loc
 /**********************************************************************************************************************/
@@ -34,26 +35,24 @@ void loc::operator+=(loc a_loc) {
     this->y += a_loc.y;
 }
 
+bool operator==(loc a_loc, loc b_loc) {
+    return a_loc.x == b_loc.x && a_loc.y == b_loc.y;
+}
+
 loc operator+(loc a, loc b) {
     return loc(a.x + b.x, a.y + b.y);
 }
 
-void loc::clamp(int max_x, int max_y) {
-    x = std::min(x, max_x);
-    y = std::min(y, max_y);
+bool loc::clamp(int max_x, int max_y) {
+    int nx = x;
+    int ny = y;
 
-    x = std::max(x, 0);
-    y = std::max(y, 0);
-}
+    nx = std::min(nx, max_x), ny = std::min(ny, max_y);
+    nx = std::max(nx, 0), ny = std::max(ny, 0);
 
-boost::optional<dir> key_to_dir(int a_key) {
-    switch (a_key) {
-        case 260: return boost::optional<dir>(dir::Left);
-        case 261: return boost::optional<dir>(dir::Right);
-        case 259: return boost::optional<dir>(dir::Up);
-        case 258: return boost::optional<dir>(dir::Down);
-        default: return boost::optional<dir>();
-    }
+    bool clamped = nx != x || ny != y;
+    x = nx, y = ny;
+    return clamped;
 }
 
 /**********************************************************************************************************************/
@@ -84,4 +83,9 @@ bool ticker::tick(double delta) {
     return active;
 }
 
+void ticker::reset() {
+    cooldown = 0;
+}
+
 ticker::operator bool() { return active; }
+
