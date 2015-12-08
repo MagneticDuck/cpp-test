@@ -46,17 +46,17 @@ loc snakey_game::game_to_screen(loc a_loc) {
     return loc(2 * a_loc.x + 1, a_loc.y + 1);
 }
 
-void snakey_game::render() {
+void snakey_game::render(frame_i &frame) {
     clear();
-    draw_border(loc(42, 22));
+    frame.draw_border(loc(42, 22));
 
-    print(game_to_screen(head), show_dir(movement));
+    frame.print(game_to_screen(head), show_dir(movement));
     for (loc tail_loc : tail) {
-        print(game_to_screen(tail_loc), (char *) "x");
+        frame.print(game_to_screen(tail_loc), (char *) "x");
     }
 
     using std::to_string;
     title.text = to_string(lifetime) + " iterations and counting! ";
-    print(loc(6, 0), title.print());
+    frame.print(loc(6, 0), title.print());
 }
 

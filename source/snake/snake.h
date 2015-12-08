@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <ncurses.h>
-#include "game.h"
 #include <cstdlib>
+#include "snake/control/control.h"
 
-#ifndef PONG_SNAKE_H
-#define PONG_SNAKE_H
+#ifndef SNAKE_SNAKE_H
+#define SNAKE_SNAKE_H
 
 class tickertape {
 private:
@@ -69,7 +69,7 @@ class snakey_game : public game_i {
 
 public:
     void tick(double delta) override;
-    void render() override;
+    void render(frame_i &frame) override;
     void handle(int key) override;
     bool conclude() override;
 };
