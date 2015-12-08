@@ -11,24 +11,31 @@ class tickertape {
 private:
     int iter = 0;
 
-    const int loop_len() {
-        return std::max((int) text.length(), width);
-    };
-
     char at_index(int i) {
-        if (i < text.length()) return text[i];
+        if (i < std::min((int) text.length(), str_width))
+            return text[i];
         else return ' ';
     }
 
 public:
-    int width;
-    std::string text;
+    const int disp_width;
+    const int str_width;
+    const int loop_length;
+    // the number of positions the ticker tape can be in
+    // equal to max(dist_width, str_width);
 
-    tickertape(int width, std::string text)
-            : width(width), text(text) { }
+    std::string text = "";
+
+    /**
+     * disp_width: the length that the displayed string is
+     * str_width: the length of the tickertape message
+     */
+    tickertape(const int disp_width, const int str_width)
+            : disp_width(disp_width), str_width(str_width),
+              loop_length(std::max(disp_width, str_width)) { }
 
     void tick() {
-        iter = (iter + 1) % loop_len();
+        iter = (iter + 1) % loop_length;
     }
 
     std::string print();
@@ -40,7 +47,7 @@ class snakey_game : public game_i {
 
     // interface
     bool concluded = false;
-    tickertape title{30, "title"};
+    tickertape title{30, 30};
     int lifetime = 0;
 
     // ticking

@@ -3,8 +3,8 @@
 
 std::string tickertape::print() {
     std::string result = "";
-    const int loop_len_v = loop_len();
-    for (int i = 0; i < width; i++) {
+    const int loop_len_v = loop_length;
+    for (int i = 0; i < disp_width; i++) {
         result += at_index((iter + i) % loop_len_v);
     }
     return result;

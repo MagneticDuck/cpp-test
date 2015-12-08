@@ -52,6 +52,9 @@ public:
     const char *show(const T t) {
         return std::to_string(t).c_str();
     }
+    const char *show(std::string t) {
+        return t.c_str();
+    }
     template<typename T>
     void print(loc a_loc, T t) {
         move(a_loc.y, a_loc.x);
