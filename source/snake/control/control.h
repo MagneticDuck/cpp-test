@@ -4,48 +4,10 @@
 #include <string>
 #include <ncurses.h>
 #include <boost/optional.hpp>
+#include "snake/util/util.h"
 
 #ifndef SNAKE_CONTROL_H
 #define SNAKE_CONTROL_H
-
-/*********************************************************************************************************************/
-/* dir and loc
-/*********************************************************************************************************************/
-
-/**
- * A direction something can travel along.
- */
-enum class dir {
-    Up, Down, Left, Right
-};
-
-/**
- * Turn an arrow key into a dir.
- */
-boost::optional<dir> key_to_dir(int a_key);
-
-/**
- * Print one of <>^v representing a dir.
- */
-std::string show_dir(dir a_dir);
-
-/**
- * A position on the screen.
- */
-struct loc {
-    int x, y;
-
-    loc(int col, int row);
-    loc(dir some_dir);
-    loc();
-
-    void operator+=(loc a_loc);
-    void clamp(int max_x, int max_y);
-};
-
-/*********************************************************************************************************************/
-/* game_i
-/*********************************************************************************************************************/
 
 /**
  * An interface representing a frame where you can draw ASCII graphics.

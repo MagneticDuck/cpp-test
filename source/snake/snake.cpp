@@ -1,15 +1,6 @@
 #include <cmath>
 #include "snake.h"
 
-std::string tickertape::print() {
-    std::string result = "";
-    const int loop_len_v = loop_length;
-    for (int i = 0; i < disp_width; i++) {
-        result += at_index((iter + i) % loop_len_v);
-    }
-    return result;
-}
-
 void snakey_game::game_tick() {
     lifetime++;
 
@@ -23,12 +14,16 @@ void snakey_game::anim_tick() {
 
 void snakey_game::tick(double delta) {
     tick_cooldown += delta;
-    if (tick_cooldown > tick_dur) game_tick();
-    tick_cooldown = std::fmod(tick_cooldown, tick_dur);
+    if (tick_cooldown > tick_dur) {
+        tick_cooldown = 0;
+        game_tick();
+    }
 
     anim_cooldown += delta;
-    if (anim_cooldown > anim_dur) anim_tick();
-    anim_cooldown = std::fmod(anim_cooldown, anim_dur);
+    if (anim_cooldown > anim_dur) {
+        anim_tick();
+        anim_cooldown = 0;
+    }
 }
 
 bool snakey_game::conclude() {

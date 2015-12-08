@@ -3,44 +3,10 @@
 #include <ncurses.h>
 #include <cstdlib>
 #include "snake/control/control.h"
+#include "snake/util/util.h"
 
 #ifndef SNAKE_SNAKE_H
 #define SNAKE_SNAKE_H
-
-class tickertape {
-private:
-    int iter = 0;
-
-    char at_index(int i) {
-        if (i < std::min((int) text.length(), str_width))
-            return text[i];
-        else return ' ';
-    }
-
-public:
-    const int disp_width;
-    const int str_width;
-    const int loop_length;
-    // the number of positions the ticker tape can be in
-    // equal to max(dist_width, str_width);
-
-    std::string text = "";
-
-    /**
-     * disp_width: the length that the displayed string is
-     * str_width: the length of the tickertape message
-     */
-    tickertape(const int disp_width, const int str_width)
-            : disp_width(disp_width), str_width(str_width),
-              loop_length(std::max(disp_width, str_width)) { }
-
-    void tick() {
-        iter = (iter + 1) % loop_length;
-    }
-
-    std::string print();
-};
-
 
 class snakey_game : public game_i {
     const int quit_key = 113;

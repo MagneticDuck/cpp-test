@@ -5,6 +5,18 @@
 #include "control.h"
 #include "control_ncurses.h"
 
+class frame_ncurses : public frame_i {
+private:
+    void update_dims();
+public:
+    frame_ncurses();
+
+    void print(loc a_loc, char *);
+    void draw_border(loc corner);
+
+    void tick();
+};
+
 void frame_ncurses::update_dims() {
     int height, width;
     getmaxyx(stdscr, height, width);
