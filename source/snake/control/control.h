@@ -9,28 +9,38 @@
 #ifndef SNAKE_CONTROL_H
 #define SNAKE_CONTROL_H
 
+/**********************************************************************************************************************/
+/* frame_i
+/**********************************************************************************************************************/
+
 /**
  * An interface representing a frame where you can draw ASCII graphics.
  */
 class frame_i {
-public:
-    /** string conversion utilities **/
+private:
+    static const char *show(std::string t) {
+        return t.c_str();
+    }
+
     template<typename T>
     static const char *show(const T t) {
         return std::to_string(t).c_str();
     }
 
-    static const char *show(std::string t) {
-        return t.c_str();
-    }
-
-    /** drawing **/
+public:
+    /**
+     * We can print a stringifyable value to a screen location.
+     * print(loc, char *) is pure virtual but the templated function
+     * is defined here, dependant on the former.
+     */
     virtual void print(loc a_loc, char *) = 0;
     template<typename T>
     void print(loc a_loc, T t);
     virtual void draw_border(loc corner) = 0;
 
-    /** state variables **/
+    /**
+     * Consistently updated frame dimensions.
+     */
     struct {
         int x_max;
         int y_max;
@@ -43,30 +53,31 @@ void frame_i::print(loc a_loc, T t) {
     printw(show(t));
 }
 
+/**********************************************************************************************************************/
+/* game_i
+/**********************************************************************************************************************/
+
 /**
  * An interface representing an interactive application.
  */
 class game_i {
 public:
+    bool concluded; // set this to true to exit
+
     /**
-     * Tick your logic, with a delta interval in seconds since the last tick.
+     * Tick your logic forwards in function of a delta interval, given in seconds, in seconds since the last tick.
      */
     virtual void tick(double delta) = 0;
 
     /**
-     * Render graphics to a frame_i.
+     * Render graphics to the frame.
      */
     virtual void render(frame_i &frame) = 0;
 
     /**
-     * Handle a keypress with a certain code.
+     * Handle a keypress with a given key-code.
      */
     virtual void handle(int key) = 0;
-
-    /**
-     * Return true here to exit.
-     */
-    virtual bool conclude() = 0;
 };
 
 #endif //GAME_H

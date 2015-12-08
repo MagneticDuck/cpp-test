@@ -1,3 +1,6 @@
+/**
+ * Here we define a function to run a game_i object with ncurses.
+ */
 #ifndef SNAKE_CONTROL_NCURSES_H
 #define SNAKE_CONTROL_NCURSES_H
 

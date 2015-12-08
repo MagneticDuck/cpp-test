@@ -1,7 +1,6 @@
-//
-// Created by magneticduck on 12/8/15.
-//
-
+/**
+ * Various utilities for our game.
+ */
 #ifndef SNAKE_UTIL_H
 #define SNAKE_UTIL_H
 
@@ -25,11 +24,6 @@ enum class dir {
 boost::optional<dir> key_to_dir(int a_key);
 
 /**
- * Print one of {<>^v} representing a dir.
- */
-std::string show_dir(dir a_dir);
-
-/**
  * A position on the screen.
  */
 struct loc {
@@ -48,7 +42,7 @@ struct loc {
 /**********************************************************************************************************************/
 
 /**
- * A rolling 'tickertape' with fixed message width and display width.
+ * A rolling 'digital tickertape' with fixed message and display width.
  */
 class tickertape {
 private:
@@ -72,6 +66,25 @@ public:
     std::string print();
 };
 
+/**********************************************************************************************************************/
+/* ticker
+/**********************************************************************************************************************/
 
+/**
+ * Manages an action that becomes momentarily active on regular intervals. (The 'tick' of an analog clock is the analogy
+ * that inspires its name.)
+ */
+class ticker {
+private:
+    bool active = false;
+    double cooldown = 0;
+    const double period;
+
+public:
+    ticker(double period) : period(period) { }
+
+    bool tick(double delta);
+    operator bool();
+};
 
 #endif //SNAKE_UTIL_H

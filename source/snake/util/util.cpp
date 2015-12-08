@@ -56,15 +56,6 @@ boost::optional<dir> key_to_dir(int a_key) {
     }
 }
 
-std::string show_dir(dir a_dir) {
-    switch (a_dir) {
-        case dir::Up: return "^";
-        case dir::Down: return "v";
-        case dir::Left: return "<";
-        case dir::Right: return ">";
-    }
-}
-
 /**********************************************************************************************************************/
 /* tickertape
 /**********************************************************************************************************************/
@@ -86,3 +77,11 @@ std::string tickertape::print() {
     return result;
 }
 
+bool ticker::tick(double delta) {
+    cooldown += delta;
+    active = cooldown > period;
+    cooldown = std::fmod(cooldown, period);
+    return active;
+}
+
+ticker::operator bool() { return active; }

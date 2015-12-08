@@ -1,7 +1,3 @@
-//
-// Created by magneticduck on 12/8/15.
-//
-
 #include "control.h"
 #include "control_ncurses.h"
 
@@ -11,8 +7,8 @@ private:
 public:
     frame_ncurses();
 
-    void print(loc a_loc, char *);
-    void draw_border(loc corner);
+    void print(loc a_loc, char *) override;
+    void draw_border(loc corner) override;
 
     void tick();
 };
@@ -37,11 +33,11 @@ void frame_ncurses::draw_border(loc corner) {
     int i;
     const int x = corner.x;
     const int y = corner.y;
-    for (i = 0; i < x; ++i) {
+    for (i = 1; i < x; ++i) {
         move(0, i), printw("=");
         move(y, i), printw("=");
     }
-    for (i = 0; i < y; ++i) {
+    for (i = 1; i < y; ++i) {
         move(i, 0), printw("|");
         move(i, x), printw("|");
     }
@@ -53,25 +49,29 @@ void frame_ncurses::tick() {
 
 /** run_game_ncurses **/
 
-static const __useconds_t delay = 5000;
+static const int delay = 10; // in milliseconds
 
 void run_game_loop(frame_ncurses &frame, game_i &game) {
+    /* TODO:
+     * make reported delta times more precise with something like the comments here
+     * (they are commented out because they give jittery stats O__o)
+     */
     int key;
-    double delta;
-    clock_t now_stamp, then_stamp;
+//    double delta;
+//    clock_t now_stamp, then_stamp;
 
-    now_stamp = clock();
+//    now_stamp = clock();
     while (1) {
-        then_stamp = now_stamp;
-        usleep(delay);
-        now_stamp = clock();
-        delta = ((double) now_stamp - then_stamp) / 10000;
+//        then_stamp = now_stamp;
+//        std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+//        now_stamp = clock();
+//        delta = ((double) now_stamp - then_stamp) / 10000;
 
         frame.tick();
-        game.tick(delta);
+        game.tick(((double) delay) / 1000);
         game.render(frame);
 
-        if (game.conclude()) break;
+        if (game.concluded) break;
 
         do {
             key = getch();

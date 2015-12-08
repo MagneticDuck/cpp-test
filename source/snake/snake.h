@@ -4,40 +4,28 @@
 #include <cstdlib>
 #include "snake/control/control.h"
 #include "snake/util/util.h"
+#include "snake/engine/engine.h"
 
 #ifndef SNAKE_SNAKE_H
 #define SNAKE_SNAKE_H
 
 class snakey_game : public game_i {
-    const int quit_key = 113;
-
-    // interface
-    bool concluded = false;
+    // tickatickatickaticka
     tickertape title{30, 30};
-    int lifetime = 0;
 
-    // ticking
-    const double tick_dur = 0.8;
-    const double anim_dur = 1.3;
-    double tick_cooldown = 0;
-    double anim_cooldown = 0;
+    // tickers
+    ticker anim_ticker{0.4}; // animation things tick every 0.4 seconds
+    ticker game_ticker{0.1}; // the game ticks every 0.1 seconds
 
     // game
-    loc head{};
-    std::vector<loc> tail{};
-    dir movement = dir::Up;
+    snake_engine game;
 
-    void game_tick();
     void anim_tick();
-
-    // rendering
-    loc game_to_screen(loc);
 
 public:
     void tick(double delta) override;
     void render(frame_i &frame) override;
     void handle(int key) override;
-    bool conclude() override;
 };
 
 #endif //PONG_SNAKE_H
