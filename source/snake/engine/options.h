@@ -14,6 +14,8 @@
 namespace game_opts {
 /** key bindings **/
 static const int quit_key = 113;
+static const int continue_key = 99;
+static const std::string continue_message = "(press c to continue)";
 
 /**
  * Turn an arrow-key keycode into a dir.
@@ -39,8 +41,8 @@ static boost::optional<dir> key_to_dir(int a_key) {
 //};
 
 /** game values **/
-static loc board_dims{20, 20};
-static loc init_pos{10, 10};
+static loc board_dims{30, 30};
+static loc init_pos{15, 15};
 static dir init_dir = dir::Up;
 };
 
@@ -49,14 +51,17 @@ static dir init_dir = dir::Up;
  */
 namespace rndr_opts {
 /** positioning **/
-static const int advice_width = 30;
+static const int advice_width = 40;
+static const int advice_offset = 6;
+static const int score_offset = 30;
 
 static const loc game_to_screen(loc a_loc) {
     return loc(2 * a_loc.x + 1, a_loc.y + 1);
 }
 
 /** printing **/
-static const char tail_char = 'x';
+static const char tail_char = 'O';
+static const char food_char = 'F';
 
 static const char head_char(dir a_dir) {
     switch (a_dir) {
@@ -90,7 +95,14 @@ static const std::string print_score(double score) {
 
 /** cheeky advice **/
 static const std::string print_advice() {
-    static const std::vector<std::string> choices{"yipeee", "keep snaking!", "you're goind good"};
+    static const std::vector<std::string> choices{
+            "Why are you playing this game?",
+            "Keep snaking! I bet you can do it...",
+            "You're going good... we all are, until we're not.",
+            "Your snakes are snaking correctly!",
+            "I bet there are more productive things you could be doing!",
+            "A snake by any other name would smell as sweet."
+    };
 
     static std::default_random_engine generator;
     static std::uniform_int_distribution<int> distribution(0, (int) choices.size() - 1);
@@ -98,7 +110,7 @@ static const std::string print_advice() {
     return choices[distribution(generator)];
 }
 
-static const int advice_length = 30;
+static const int advice_length = 60;
 };
 
 #endif //SNAKE_OPTIONS_H

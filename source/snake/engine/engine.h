@@ -11,6 +11,7 @@
 class snake_engine {
 private:
     bool move();
+    void set_food();
 
 public:
     bool failure = false;

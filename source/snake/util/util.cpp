@@ -1,9 +1,14 @@
 #include "util.h"
 
-
 /**********************************************************************************************************************/
 /* dir, loc
 /**********************************************************************************************************************/
+
+bool dirs_are_contrary(dir a_dir, dir b_dir) {
+    return (a_dir != b_dir &&
+            (a_dir == dir::Up || b_dir == dir::Down) &&
+            (b_dir == dir::Up || a_dir == dir::Down));
+}
 
 loc::loc(int col, int row) : x(col), y(row) { }
 
@@ -35,10 +40,6 @@ void loc::operator+=(loc a_loc) {
     this->y += a_loc.y;
 }
 
-bool operator==(loc a_loc, loc b_loc) {
-    return a_loc.x == b_loc.x && a_loc.y == b_loc.y;
-}
-
 loc operator+(loc a, loc b) {
     return loc(a.x + b.x, a.y + b.y);
 }
@@ -53,6 +54,21 @@ bool loc::clamp(int max_x, int max_y) {
     bool clamped = nx != x || ny != y;
     x = nx, y = ny;
     return clamped;
+}
+
+bool operator==(loc a_loc, loc b_loc) {
+    return a_loc.x == b_loc.x && a_loc.y == b_loc.y;
+}
+
+loc random_loc(loc dims) {
+    static std::default_random_engine generator;
+    std::uniform_int_distribution<int>
+            x_distribution(0, dims.x);
+    std::uniform_int_distribution<int>
+            y_distribution(0, dims.y);
+
+    return loc(x_distribution(generator), y_distribution(generator));
+
 }
 
 /**********************************************************************************************************************/

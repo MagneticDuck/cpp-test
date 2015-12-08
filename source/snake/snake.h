@@ -23,6 +23,8 @@ class snakey_game : public game_i {
     // game
     struct {
         bool playing = false;
+        bool inited = false;
+        bool ended = false;
     } menu_state;
     snake_engine game;
 
