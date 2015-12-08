@@ -7,51 +7,64 @@
 #ifndef PONG_SNAKE_H
 #define PONG_SNAKE_H
 
-/*********************************************************************************************************************/
-/* basic snakey_game state types
-/*********************************************************************************************************************/
+class tickertape {
+private:
+    int iter = 0;
 
-namespace snake {
-/**
- * Location on the screen. Could use a vector; this implementation is purely pedagogical.
- */
-    struct loc {
-        int x, y;
-
-        loc(int col, int row) : x(col), y(row) { }
-
-        loc() : x(0), y(0) { }
+    const int loop_len() {
+        return std::max((int) text.length(), width);
     };
 
-/**
- * A direction something can travel along.
- */
-    enum class dir {
-        Up, Down, Left, Right
-    };
+    char at_index(int i) {
+        if (i < text.length()) return text[i];
+        else return ' ';
+    }
 
-/*********************************************************************************************************************/
-/* snakey_game class
-/*********************************************************************************************************************/
+public:
+    int width;
+    std::string text;
 
-    class snakey_game : public game_i {
-        const int quit_key = 113;
-        bool concluded = false;
+    tickertape(int width, std::string text)
+            : width(width), text(text) { }
 
-        int key = 0;
-        int key_count = 0;
+    void tick() {
+        iter = (iter + 1) % loop_len();
+    }
 
-        double delay_len = 0;
-    public:
-        snakey_game();
-        ~snakey_game();
+    std::string print();
+};
 
-        void tick(double delta) override;
-        void render(double delta) override;
-        void handle(int key) override;
-        bool conclude() override;
 
-    };
-}
+class snakey_game : public game_i {
+    const int quit_key = 113;
+
+    // interface
+    bool concluded = false;
+    tickertape title{30, "title"};
+    int lifetime = 0;
+
+    // ticking
+    const double tick_dur = 0.8;
+    const double anim_dur = 1.3;
+    double tick_cooldown = 0;
+    double anim_cooldown = 0;
+
+    // game
+    loc head{};
+    std::vector<loc> tail{};
+    dir movement = dir::Up;
+
+    void game_tick();
+    void anim_tick();
+
+    // rendering
+    loc game_to_screen(loc);
+
+public:
+    void tick(double delta) override;
+    void render() override;
+    void handle(int key) override;
+    bool conclude() override;
+};
 
 #endif //PONG_SNAKE_H
