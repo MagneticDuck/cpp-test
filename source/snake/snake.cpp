@@ -57,6 +57,8 @@ void snakey_game::render(frame_i &frame) {
     } else {
         using std::string;
         if (menu_state.ended) {
+            game.render(frame);
+
             frame.print(loc(10, 14), (string) "you screwed up with " + rndr_opts::print_score(game.score));
             frame.print(loc(10, 16), game_opts::continue_message);
         } else {

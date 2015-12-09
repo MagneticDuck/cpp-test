@@ -1,5 +1,5 @@
 /**
- * Here we define a function to run a game_i object with ncurses.
+ * Run a game_i with ncurses.
  */
 #ifndef SNAKE_CONTROL_NCURSES_H
 #define SNAKE_CONTROL_NCURSES_H

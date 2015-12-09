@@ -11,6 +11,7 @@ void snake_engine::init(loc player_head, dir player_movement) {
 
     this->head = player_head;
     this->movement = player_movement;
+    this->momentum = player_movement;
     this->tail = {};
     this->target_tail = 2;
 
@@ -18,8 +19,6 @@ void snake_engine::init(loc player_head, dir player_movement) {
 }
 
 void snake_engine::render(frame_i &frame) {
-    frame.print(rndr_opts::game_to_screen(head),
-                rndr_opts::head_char(movement));
     for (loc tail_loc : tail) {
         frame.print(rndr_opts::game_to_screen(tail_loc),
                     rndr_opts::tail_char);
@@ -28,10 +27,12 @@ void snake_engine::render(frame_i &frame) {
         frame.print(rndr_opts::game_to_screen(food_loc),
                     rndr_opts::food_char);
     }
+    frame.print(rndr_opts::game_to_screen(head),
+                rndr_opts::head_char(movement));
 }
 
 void snake_engine::handle(dir movement) {
-    if (!dirs_are_contrary(movement, this->movement))
+    if (!dirs_are_contrary(movement, this->momentum))
         this->movement = movement;
 }
 
@@ -45,8 +46,20 @@ const bool touching(loc head, std::vector<loc> targets) {
 }
 
 bool snake_engine::move() {
-    head += loc{movement};
-    return head.clamp(game_opts::board_dims.x, game_opts::board_dims.y) || touching(head, tail);
+    momentum = movement;
+    loc new_head = head + loc{movement};
+    if (new_head.clamp(game_opts::board_dims.x, game_opts::board_dims.y)) {
+        // we've hit the wall
+        return true;
+    } else {
+        if (touching(new_head, tail) != 0) {
+            // we're touching our tail; ew
+            return true;
+        } else {
+            head = new_head;
+            return false;
+        }
+    }
 }
 
 void snake_engine::set_food() {
@@ -55,12 +68,29 @@ void snake_engine::set_food() {
 }
 
 void snake_engine::tick() {
+    if (failure) return;
+
     score += 0.01;
 
-    tail.push_back(head);
-    if (tail.size() > target_tail) tail.erase(tail.begin());
+    loc old_head = head;
+    loc shedded;
+    bool has_shedded = false;
+    if (tail.size() > 0) {
+        shedded = tail.at(0);
+        has_shedded = true;
+    }
 
-    if (move()) failure = true;
+    if (tail.size() >= target_tail) tail.erase(tail.begin());
+
+    if (move()) {
+        failure = true;
+        head = old_head;
+        if (has_shedded) tail.push_back(shedded);
+        return;
+    }
+
+    tail.push_back(old_head);
+
     if (touching(head, food)) {
         score += 1;
         target_tail++;

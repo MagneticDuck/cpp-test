@@ -1,5 +1,5 @@
 /**
- * Constant options for the engine and the interface.
+ * Constant options for internal use in game and interface.
  */
 #include "snake/util/util.h"
 #include <boost/optional/optional.hpp>
@@ -29,16 +29,6 @@ static boost::optional<dir> key_to_dir(int a_key) {
         default: return boost::optional<dir>();
     }
 }
-
-//static boost::optional<menu_action>(int a_key) {
-//    switch (a_key) {
-//        case 260: return boost::optional<dir>(menu_action::Up);
-//        case 261: return boost::optional<dir>(menu_action::Down);
-//        case 259: return boost::optional<dir>(menu_action::Up);
-//        case 258: return boost::optional<dir>(menu_action::Down);
-//        default: return boost::optional<dir>();
-//    }
-//};
 
 /** game values **/
 static loc board_dims{30, 30};

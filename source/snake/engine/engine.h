@@ -19,6 +19,7 @@ public:
 
     loc head{};
     dir movement = dir::Up;
+    dir momentum = dir::Up;
     std::vector<loc> tail{};
     std::vector<loc> food{};
     int target_tail = 0;

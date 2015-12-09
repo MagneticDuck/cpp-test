@@ -2,6 +2,10 @@
 #include "control.h"
 #include "control_ncurses.h"
 
+/**********************************************************************************************************************/
+/* frame_ncurses
+/**********************************************************************************************************************/
+
 class frame_ncurses : public frame_i {
 private:
     void update_dims();
@@ -48,25 +52,18 @@ void frame_ncurses::tick() {
     update_dims();
 }
 
-/** run_game_ncurses **/
+/**********************************************************************************************************************/
+/* run_game_ncurses
+/**********************************************************************************************************************/
 
 static const int delay = 10; // in milliseconds
 
 void run_game_loop(frame_ncurses &frame, game_i &game) {
-    /* TODO: fix game loop!
-     * Make reported delta times more precise with something like the comments here.
-     * (They are commented out because they give jittery values O__o.)
-     */
-    int key;
-//    double delta;
-//    clock_t now_stamp, then_stamp;
+    // TODO: use timers to make the game loop more precise
 
-//    now_stamp = clock();
+    int key;
     while (1) {
-//        then_stamp = now_stamp;
         std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-//        now_stamp = clock();
-//        delta = ((double) now_stamp - then_stamp) / 10000;
 
         frame.tick();
         game.tick(((double) delay) / 1000);
@@ -82,7 +79,7 @@ void run_game_loop(frame_ncurses &frame, game_i &game) {
 }
 
 void run_game_ncurses(game_i &game) {
-    /** initialisation code **/
+    /** initialisation **/
     initscr();
     nodelay(stdscr, true);
     keypad(stdscr, true);
@@ -93,7 +90,7 @@ void run_game_ncurses(game_i &game) {
     /** game loop **/
     run_game_loop(frame, game);
 
-    /** destruction code **/
+    /** destruction **/
     endwin();
 }
 

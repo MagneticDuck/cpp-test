@@ -21,7 +21,7 @@ enum class dir {
 bool dirs_are_contrary(dir a_dir, dir b_dir);
 
 /**
- * A position on the screen.
+ * A position on the screen or a position delta.
  */
 struct loc {
     int x, y;
@@ -35,6 +35,7 @@ struct loc {
 };
 
 bool operator==(loc a_loc, loc b_loc);
+loc operator+(loc a_loc, loc b_loc);
 
 loc random_loc(loc dims);
 
@@ -79,9 +80,9 @@ class ticker {
 private:
     bool active = false;
     double cooldown = 0;
-    const double period;
 
 public:
+    double period;
     ticker(double period) : period(period) { }
 
     bool tick(double delta);
