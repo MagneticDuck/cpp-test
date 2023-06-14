@@ -31,7 +31,7 @@ frame_ncurses::frame_ncurses() {
 
 void frame_ncurses::print_c(loc a_loc, char *t) {
     move(a_loc.y, a_loc.x);
-    printw(t);
+    printw("%s", t);
 }
 
 void frame_ncurses::draw_border(loc corner) {

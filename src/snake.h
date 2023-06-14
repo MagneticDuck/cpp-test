@@ -2,10 +2,10 @@
 #include <vector>
 #include <ncurses.h>
 #include <cstdlib>
-#include "snake/engine/options.h"
-#include "snake/control/control.h"
-#include "snake/util/util.h"
-#include "snake/engine/engine.h"
+#include "options.h"
+#include "control.h"
+#include "util.h"
+#include "engine.h"
 
 #ifndef SNAKE_SNAKE_H
 #define SNAKE_SNAKE_H

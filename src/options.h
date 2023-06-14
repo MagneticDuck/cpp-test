@@ -1,7 +1,7 @@
 /**
  * Constant options for internal use in game and interface.
  */
-#include "snake/util/util.h"
+#include "util.h"
 #include <boost/optional/optional.hpp>
 #include <random>
 

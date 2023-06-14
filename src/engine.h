@@ -3,7 +3,7 @@
  */
 #include <iostream>
 #include <vector>
-#include "snake/control/control.h"
+#include "control.h"
 
 #ifndef SNAKE_ENGINE_H
 #define SNAKE_ENGINE_H

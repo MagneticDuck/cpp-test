@@ -4,7 +4,7 @@
 #include <string>
 #include <ncurses.h>
 #include <boost/optional.hpp>
-#include "snake/util/util.h"
+#include "util.h"
 
 #ifndef SNAKE_CONTROL_H
 #define SNAKE_CONTROL_H

@@ -1,4 +1,4 @@
-#include "snake/engine/options.h"
+#include "options.h"
 #include "engine.h"
 
 /**********************************************************************************************************************/
@@ -78,9 +78,10 @@ void snake_engine::tick() {
     if (tail.size() > 0) {
         shedded = tail.at(0);
         has_shedded = true;
+        if (tail.size() >= target_tail) {
+            tail.erase(tail.begin());
+        }
     }
-
-    if (tail.size() >= target_tail) tail.erase(tail.begin());
 
     if (move()) {
         failure = true;
